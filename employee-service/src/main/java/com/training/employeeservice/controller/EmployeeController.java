@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.training.employeeservice.exception.EmployeeNotFoundException;
 import com.training.employeeservice.model.Employee;
 import com.training.employeeservice.repository.EmployeeRepository;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -34,10 +34,10 @@ public class EmployeeController {
 		return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
 	}
 	
-	@GetMapping("/employees/{employeeId}")
+	@GetMapping(value="/employees/{employeeId}")
 	public ResponseEntity<Employee> getEmployeeDetails(@PathVariable int employeeId) {
 		Employee employee = employeeRepository.findById(employeeId)
-		                                  .orElseThrow(() -> new EmployeeNotFoundException("Employee Not Found."));
+		                                                               .orElseThrow(() -> new EmployeeNotFoundException("Employee Not Found."));
 		
 		// return ResponseEntity.ok(employee);
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);		                             
@@ -69,6 +69,26 @@ public class EmployeeController {
 		
 		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.OK);
 	}
+	
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<Object> handleException(Exception ex) {
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("timestamp", LocalDateTime.now().toString());
+//		headers.add("message", ex.getMessage());
+//		headers.add("key", "value");
+//		
+//		return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+//	}
+	
+//	@ExceptionHandler(EmployeeNotFoundException.class)
+//	public ResponseEntity<Object> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
+//		
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("timestamp", LocalDateTime.now().toString());
+//		headers.add("message", ex.getMessage());
+//		
+//		return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+//	}
 }
 
 
